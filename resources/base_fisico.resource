@@ -7,7 +7,6 @@ Library     AppiumZoomExtensions2.py
 Library     AppiumZoomExtensions2_1.py
 Library     AppiumZoomExtensions2_2.py
 Library     AppiumZoomExtensions2_3.py
-Library     AppiumZoomExtensions2_3_3.py
 Library     AppiumZoomExtensions3.py
 Library     AppiumZoomExtensions4.py
 Library     AppiumZoomExtensions5.py

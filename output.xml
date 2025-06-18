@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.13.2 on win32)" generated="2025-06-18T19:28:07.773799" rpa="false" schemaversion="5">
+<suite id="s1" name="Treinamento" source="C:\QAx\projects\yodapp-robot\keywords\treinamento\treinamento.robot">
+<test id="s1-t1" name="Deve realizar um zoom no Google Maps" line="7">
+<kw name="Start session Google Maps" owner="base_treinamento">
+<kw name="Open Application" owner="AppiumLibrary">
+<arg>http://localhost:4723</arg>
+<arg>platformName=Android</arg>
+<arg>deviceName=Android Emulator</arg>
+<arg>automationName=UIAutomator2</arg>
+<arg>appPackage=com.google.android.apps.maps</arg>
+<arg>appActivity=com.google.android.maps.MapsActivity</arg>
+<arg>udid=emulator-5554</arg>
+<arg>autoGrantPermissions=true</arg>
+<doc>Opens a new application to given Appium server.
+Capabilities of appium server, Android and iOS,
+Please check https://appium.io/docs/en/2.1/cli/args/
+| *Option*            | *Man.* | *Description*     |
+| remote_url          | Yes    | Appium server url |
+| alias               | no     | alias             |
+| strict_ssl          | No     | allows you to send commands to an invalid certificate host like a self-signed one. |</doc>
+<status status="PASS" start="2025-06-18T19:28:08.059652" elapsed="13.863110"/>
+</kw>
+<status status="PASS" start="2025-06-18T19:28:08.058950" elapsed="13.864253"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-18T19:28:31.930939" level="INFO">Slept 10 seconds.</msg>
+<arg>10</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-18T19:28:21.925426" elapsed="10.005781"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="AppiumLibrary">
+<msg time="2025-06-18T19:28:33.661543" level="INFO">xpath criteria: //android.widget.Button[@content-desc="Enter compass mode"]</msg>
+<arg>//android.widget.Button[@content-desc="Enter compass mode"]</arg>
+<doc>Waits until element specified with `locator` is visible.</doc>
+<status status="PASS" start="2025-06-18T19:28:31.958757" elapsed="1.702923"/>
+</kw>
+<kw name="Click Element" owner="AppiumLibrary">
+<msg time="2025-06-18T19:28:33.664184" level="INFO">Clicking element '//android.widget.Button[@content-desc="Enter compass mode"]'.</msg>
+<msg time="2025-06-18T19:28:34.125740" level="INFO">xpath criteria: //android.widget.Button[@content-desc="Enter compass mode"]</msg>
+<arg>//android.widget.Button[@content-desc="Enter compass mode"]</arg>
+<doc>Click element identified by `locator`.</doc>
+<status status="PASS" start="2025-06-18T19:28:33.662147" elapsed="0.463785"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-18T19:28:36.127832" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-18T19:28:34.126707" elapsed="2.001433"/>
+</kw>
+<kw name="Perform Zoom" owner="AppiumZoomTreinamento">
+<msg time="2025-06-18T19:28:40.630426" level="INFO">criteria is com.google.android.apps.maps:id/mainmap_container</msg>
+<arg>locator=id=com.google.android.apps.maps:id/mainmap_container</arg>
+<arg>scale=1.5</arg>
+<arg>duration=500</arg>
+<arg>direction=horizontal</arg>
+<arg>pause_s=0.3</arg>
+<arg>steps=50</arg>
+<doc>Executa um gesto de zoom in (aproximação com dois dedos) em um aplicativo Android.
+Aplica perturbações para simular movimento humano realista.</doc>
+<status status="PASS" start="2025-06-18T19:28:36.128932" elapsed="4.501645"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-06-18T19:28:42.632906" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-06-18T19:28:40.631432" elapsed="2.001665"/>
+</kw>
+<tag>zoom</tag>
+<status status="PASS" start="2025-06-18T19:28:08.057907" elapsed="34.591322"/>
+</test>
+<status status="PASS" start="2025-06-18T19:28:07.775574" elapsed="34.910826"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">zoom</stat>
+</tag>
+<suite>
+<stat name="Treinamento" id="s1" pass="1" fail="0" skip="0">Treinamento</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -26,7 +26,7 @@ class AppiumZoomTreinamento:
         # Retorna a instância atual do Appium driver (WebDriver)
         return self._builtin.get_library_instance("AppiumLibrary")._current_application()
 
-    # Define uma keyword customizada chamada "Perform Zoom_4"
+    # Define uma keyword customizada chamada "Perform Zoom"
     @keyword("Perform Zoom")
     def perform_zoom_in_gesture(self, locator, scale=1.5, duration=500, direction="vertical", pause_s=0.1, steps=50):
         """
