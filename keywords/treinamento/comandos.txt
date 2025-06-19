@@ -1,0 +1,50 @@
+----------------------------------------------------------------------------------------
+=========== Para verificar os dispositivos conectados no seu computador ===============
+adb devices
+
+Exemplo de saída:
+
+List of devices attached
+emulator-5554   device
+
+emulator-5554 é o udid do emulador
+
+-----------------------------------------------------------------------------------------------------
+=========== Para executar um teste ================
+
+No terminal:
+
+1) Para rodar TODOS os casos de testes do arquivo teste.robot da pasta teste
+
+robot teste/teste.robot
+
+2) Para rodar somente os testes com uma Tag específica do arquivo teste.robot da pasta teste
+
+robot -i zoom teste/teste.robot
+
+3) Para armazenar o log do teste em uma pasta
+
+robot -d logs -i zoom teste/teste.robot
+
+
+-----------------------------------------------------------------------------------------------------
+Para consultar o appPackage e o appActivity de um aplicativo
+Útil na hora de construir os capabilities para utilizar no AppiumInspector
+
+No terminal:
+
+adb shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp'
+
+Exemplo de saída:
+
+Aplicativo : Google Maps
+
+ mCurrentFocus=Window{5a46be1 u0 com.google.android.apps.maps/com.google.android.maps.MapsActivity}
+ mFocusedApp=ActivityRecord{c475cd6 u0 com.google.android.apps.maps/com.google.android.maps.MapsActivity t32}
+
+ Logo,
+
+ appPackage = com.google.android.apps.maps
+ appActivity = com.google.android.maps.MapsActivity
+ ----------------------------------------------------------------------------------------------------
+
