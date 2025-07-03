@@ -87,5 +87,5 @@ The test suite created to validate `Tap With Positions` includes:
 To review or test the previous implementation, see the legacy file:
 
 ```
-/keywords_revisadas/perform_click_a_point_en.py
+/keywords_revisadas/click_a_point_en.py
 ```
