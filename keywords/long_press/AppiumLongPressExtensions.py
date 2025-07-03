@@ -1,7 +1,7 @@
 from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.actions.mouse_button import MouseButton
+
 
 class AppiumLongPressExtensions:
 
