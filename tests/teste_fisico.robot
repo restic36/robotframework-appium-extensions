@@ -27,7 +27,7 @@ Deve executar pinch no Google Maps
     # Observação: Problemas com o scale e dependência de duração para execução. 
     #             Resultados inconsistentes para a mesma configuração
 
-    Perform Pinch Gesture    scale=0.5    duration=500     locator=id=com.google.android.apps.maps:id/mainmap_container    #direction=horizontal
+    Perform Pinch    scale=0.5    duration=500     locator=id=com.google.android.apps.maps:id/mainmap_container    #direction=horizontal
     # ------------
     Sleep    5
     Close Application
@@ -58,7 +58,7 @@ Deve dar zoom no Google Maps 1.5
     # --- Zoom com estratégia de pertubação de movimento ---   
     # Observação: Pertubação obtém resultados consistentes para a mesma configuração
     #             Resultados mais consistentes e fator de scale responsivo.              
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom    id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=50    direction=horizontal
     #------------------------------------------------------- 
     
     # --- Zoom com estratégia de offset ---
@@ -107,7 +107,7 @@ Deve dar zoom no Google Maps 1.7
     # --- Zoom com estratégia de pertubação de movimento ---   
     # Observação: Pertubação obtém resultados consistentes para a mesma configuração
     #             Resultados mais consistentes e fator de scale responsivo.              
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.7    duration=${DURATION}    steps=50     direction=horizontal 
+    Perform Zoom    id=com.google.android.apps.maps:id/mainmap_container    scale=1.7    duration=${DURATION}    steps=50     direction=horizontal 
     #------------------------------------------------------- 
     
     # --- Zoom com estratégia de offset ---
@@ -156,7 +156,7 @@ Deve dar zoom no Google Maps 1.1
     # --- Zoom com estratégia de pertubação de movimento ---   
     # Observação: Pertubação obtém resultados consistentes para a mesma configuração
     #             Resultados mais consistentes e fator de scale responsivo.              
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.1    duration=100    steps=20      direction=horizontal
+    Perform Zoom    id=com.google.android.apps.maps:id/mainmap_container    scale=1.1    duration=100    steps=20      direction=horizontal
     #------------------------------------------------------- 
     
     # --- Zoom com estratégia de offset ---
@@ -197,9 +197,6 @@ Deve realizar um Zoom no Google Fotos 1.5
     Click Element    //android.widget.ImageView[@content-desc="Item Foto criado em 21 de set. de 2024 11:04"]
 
     Sleep    10
-    #Perform Zoom_4    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.5
-    Perform Zoom_2    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.5    
-
     # Obtém timestamp seguro para nome de arquivo
     ${timestamp}=    Get Time    epoch
     ${safe_name}=    Set Variable    pert_scale1.5_after_zoom_${timestamp}
@@ -229,7 +226,7 @@ Deve realizar um Zoom no Google Fotos 1.7
     Click Element    //android.widget.ImageView[@content-desc="Item Foto criado em 21 de set. de 2024 11:04"]
 
     Sleep    10
-    Perform Zoom_4    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.7
+    Perform Zoom    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.7
     
     # Obtém timestamp seguro para nome de arquivo
     ${timestamp}=    Get Time    epoch
@@ -260,7 +257,7 @@ Deve realizar um Zoom no Google Fotos 1.1
     Click Element    //android.widget.ImageView[@content-desc="Item Foto criado em 21 de set. de 2024 11:04"]
 
     Sleep    10
-    Perform Zoom_4    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.1
+    Perform Zoom    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.1
     
     # Obtém timestamp seguro para nome de arquivo
     ${timestamp}=    Get Time    epoch
@@ -277,24 +274,24 @@ Deve realizar um Zoom no Google Fotos 1.1
 
     Close Application
 
-Deve realizar um Zoom e Pinch no Google Maps
+Deve realizar um Zoom e Pinch no Google Maps alternando orientação da direção
     [Tags]    pinchzoommaps
     Start session Google Maps
     Sleep    10
 
-    Wait Until Element Is Visible    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
-    Click Element    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
+    #Wait Until Element Is Visible    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
+    #Click Element    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
     Sleep    2
 
-    Perform Pinch_4   id=com.google.android.apps.maps:id/mainmap_container    scale=0.7    duration=${DURATION}    steps=20    direction=horizontal
+    Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.7    duration=${DURATION}    steps=20    direction=horizontal
     Sleep    5 
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom Gesture   id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=50    direction=horizontal
     Sleep    5
-    Perform Pinch_4   id=com.google.android.apps.maps:id/mainmap_container    scale=0.3    duration=${DURATION}    steps=20   direction=horizontal
+    Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.3    duration=${DURATION}    steps=20   direction=vertical
     Sleep    5     
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.9    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom Gesture   id=com.google.android.apps.maps:id/mainmap_container    scale=1.9    duration=${DURATION}    steps=50    direction=vertical
     Sleep    5
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.6    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom Gesture   id=com.google.android.apps.maps:id/mainmap_container    scale=1.6    duration=${DURATION}    steps=50    direction=horizontal
     Sleep    5
 
 Deve realizar um Zoom e Pinch no Google Fotos
@@ -309,9 +306,9 @@ Deve realizar um Zoom e Pinch no Google Fotos
     Wait Until Page Contains Element      //android.widget.ImageView[@content-desc="Item Foto criado em 21 de set. de 2024 11:04"]        timeout=200
     Click Element    //android.widget.ImageView[@content-desc="Item Foto criado em 21 de set. de 2024 11:04"]
     Sleep    10
-    Perform Zoom_4    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.4    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom Gesture    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=1.4    duration=${DURATION}    steps=50    direction=vertical
     Sleep    5
-    Perform Pinch_4    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=0.7    duration=${DURATION}    steps=20    direction=horizontal
+    Perform Pinch Gesture   id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=0.7    duration=${DURATION}    steps=20    direction=vertical
 
 Deve realizar o Zoom e o Pinch no 99
     [Tags]    99
@@ -329,9 +326,9 @@ Deve realizar o Zoom e o Pinch no 99
     Wait Until Page Contains Element    //android.view.View[@resource-id="com.taxis99:id/xp_bg_view_top"]    15
 
     Sleep    5
-    Perform Zoom_4    //android.widget.LinearLayout[@resource-id="com.taxis99:id/xp_cell_container"]/android.widget.FrameLayout    scale=1.9    duration=${DURATION}    steps=50    direction=horizontal    
+    Perform Zoom Gesture    //android.widget.LinearLayout[@resource-id="com.taxis99:id/xp_cell_container"]/android.widget.FrameLayout    scale=1.9    duration=${DURATION}    steps=50    direction=horizontal    
     Sleep    5
-    Perform Pinch_4    //android.widget.LinearLayout[@resource-id="com.taxis99:id/xp_cell_container"]/android.widget.FrameLayout    scale=0.2    duration=${DURATION}    steps=20    direction=horizontal
+    Perform Pinch Gesture    //android.widget.LinearLayout[@resource-id="com.taxis99:id/xp_cell_container"]/android.widget.FrameLayout    scale=0.2    duration=${DURATION}    steps=20    direction=horizontal
     Sleep    10
 
 Deve clicar no elemento da calculadora
@@ -357,3 +354,25 @@ Deve realizar multiplos cliques no Samsung Notes
     END
 
     Close Application
+
+Deve realizar vários Pinch no Google Maps na direção vertical
+    [Tags]    pinchmaps
+    Start session Google Maps
+    Sleep    10
+
+    #Wait Until Element Is Visible    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
+    #Click Element    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
+    Sleep    2
+
+    Perform Pinch   id=com.google.android.apps.maps:id/mainmap_container    scale=0.7    duration=${DURATION}    steps=20    direction=vertical
+    Sleep    5
+    Perform Pinch Gesture   id=com.google.android.apps.maps:id/mainmap_container    scale=0.7    duration=${DURATION}    steps=20    direction=vertical
+    
+    #Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.9    duration=${DURATION}    steps=20    direction=vertical
+    #Sleep    5
+    #Perform Zoom Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=20    direction=vertical
+    #Sleep    5
+    #Perform Zoom Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=20    direction=vertical
+    #Sleep    5
+    #Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.5    duration=${DURATION}    steps=20    direction=vertical
+    

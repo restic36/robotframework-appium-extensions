@@ -25,7 +25,6 @@ Deve realizar um zoom no Google Maps
     Start session Google Maps
     Sleep    15
     Capture Page Screenshot    before_zoom.png
-    Universal Zoom On Area with Bounds      bounds=[166,733][622,1232]
     Sleep    5
 
     ##### Tentativas e variações de comandos de zoom (comentadas) #####
@@ -77,31 +76,7 @@ Deve realizar um zoom em uma foto no Google Fotos
     Sleep    5
     Capture Page Screenshot
 
-    ##### Testes e variações de gestos de zoom #####
-    # Zoom On Element   xpath=//android.view.ViewGroup[contains(@resource-id, 'photo_view')]    scale=2.5  duration_ms=100  pause_s=0.3
-    # Zoom on Element Alternative     class=android.widget.ImageView     scale=2.5  duration_ms=100  pause_s=0.3
-    # Zoom On Element Alternative    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=2.5    duration_ms=100    pause_s=0.5
-    # Zoom on Element by Coordinates    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view    scale=2.5    duration_ms=100    pause_s=0.5
-    
-    # Zoom in Center
-    # Universal Zoom On Area With Bounds
-    # Universal Zoom On Area with Bounds
-    ##### Execução atual #####
-    Universal Zoom On Area    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view     scale=2.5    duration_ms=100    pause_s=0.5
     Sleep    5
-
-    ##### Outras abordagens possíveis #####
-    # Perform Pinch Gesture     id=com.google.android.apps.photos:id/photo_container
-    # Perform Pinch Gesture    id=com.google.android.apps.photos:id/photo_pager_container
-    # Perform Pinch Gesture    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]
-    # Universal Zoom On Area_2    xpath=//android.widget.FrameLayout[@resource-id="android:id/content"]    # scale=2.5    duration_ms=100    pause_s=0.5
-    # Universal Zoom On Area    xpath=//android.widget.FrameLayout[@resource-id="com.google.android.apps.photos:id/touch_capture_view"]    scale=2.5    duration_ms=100    pause_s=0.5
-    # Universal Zoom On Area    id=com.google.android.apps.photos:id/photo_container    scale=2.5    duration_ms=100    pause_s=0.5
-    # Universal Zoom On Area    id=com.google.android.apps.photos:id/photo_pager_container     scale=2.5    duration_ms=100    pause_s=0.5
-    # Zoom Java    id=com.google.android.apps.photos:id/photo_pager_container
-    # Zoom Java    id=com.google.android.apps.photos:id/photo_container
-    # Zoom Java    id=com.google.android.apps.photos:id/photos_photofragment_components_background_photo_view
-
     Sleep    5
     Capture Page Screenshot
     Close session
@@ -110,14 +85,8 @@ Deve realizar um zoom no aplicativo da Camera
     [Tags]    camera
     Start session Camera
     Wait Until Page Contains Element    //android.widget.ImageView[@content-desc="Options"]
-    Universal Zoom On Area with Bounds      bounds=[166,733][622,1232]
     Sleep    5
     Capture Page Screenshot
-
-    ##### Alternativas para zoom #####
-    # Zoom On Element    id=com.android.camera2:id/mode_options_overlay    scale=4.0    duration_ms=500    pause_s=0.3
-    # Zoom On Element by Coordinates    xpath=//android.view.View[@resource-id="com.android.camera2:id/preview_content"]    scale=4.0    duration_ms=500    pause_s=0.3
-    # Zoom On Element by Coordinates    xpath=//android.view.View[@resource-id="com.android.camera2:id/face_view"]    scale=4.0    duration_ms=500    pause_s=0.3
 
     Sleep    5
     Capture Page Screenshot
@@ -129,13 +98,6 @@ Deve realizar um zoom no Youtube
     Wait Until Page Contains Element    //android.widget.Button[@content-desc="Library"]
     Click Element    //android.widget.Button[@content-desc="Library"]
     Sleep    60
-
-    ##### Aguardando carregamento e interações futuras #####
-    # Wait Until Page Contains Element    //android.view.ViewGroup[@content-desc="Entenda os 7 princípios do Teste de Software que todo engenheiro de software deve saber"]
-    # Click Element    //android.view.ViewGroup[@content-desc="Entenda os 7 princípios do Teste de Software que todo engenheiro de software deve saber"]
-    # Sleep    30
-    # Universal Zoom On Area_2    id=com.google.android.youtube:id/watch_player    scale=2.0    duration_ms=100
-
 
 Click Element At Specific Coordinates
     [tags]   android
@@ -183,7 +145,7 @@ Deve poder fazer a conta 9+5 na calculadora com point_click
     Close Application
 
 
-Deve realizar um Zoom e Pinch no Google Maps
+Deve realizar um Zoom e Pinch no Google Maps alternando orientação da direção
     [Tags]    pinchzoommaps
     Start session Google Maps
     Sleep    10
@@ -192,13 +154,33 @@ Deve realizar um Zoom e Pinch no Google Maps
     #Click Element    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
     Sleep    2
 
-    Perform Pinch_4   id=com.google.android.apps.maps:id/mainmap_container    scale=0.7    duration=${DURATION}    steps=20    direction=horizontal
+    Perform Pinch  id=com.google.android.apps.maps:id/mainmap_container    scale=0.7    duration=${DURATION}    steps=20    direction=horizontal
     Sleep    5 
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom  id=com.google.android.apps.maps:id/mainmap_container    scale=1.5    duration=${DURATION}    steps=50    direction=horizontal
     Sleep    5
-    Perform Pinch_4   id=com.google.android.apps.maps:id/mainmap_container    scale=0.3    duration=${DURATION}    steps=20   direction=horizontal
+    Perform Pinch  id=com.google.android.apps.maps:id/mainmap_container    scale=0.3    duration=${DURATION}    steps=20   direction=vertical
     Sleep    5     
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.9    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom   id=com.google.android.apps.maps:id/mainmap_container    scale=1.9    duration=${DURATION}    steps=50    direction=vertical
     Sleep    5
-    Perform Zoom_4    id=com.google.android.apps.maps:id/mainmap_container    scale=1.6    duration=${DURATION}    steps=50    direction=horizontal
+    Perform Zoom   id=com.google.android.apps.maps:id/mainmap_container    scale=1.6    duration=${DURATION}    steps=50    direction=horizontal
     Sleep    5
+
+Deve realizar vários Pinch no Google Maps na direção vertical
+    [Tags]    pinchmaps
+    Start session Google Maps
+    Sleep    10
+
+    #Wait Until Element Is Visible    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
+    #Click Element    //android.widget.Button[@content-desc="Entrar no modo de bússola"]
+    Sleep    2
+
+    Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.7    duration=${DURATION}    steps=20    direction=horizontal
+    Sleep    5
+    Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.9    duration=${DURATION}    steps=20    direction=horizontal
+    Sleep    5
+    Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.4    duration=${DURATION}    steps=20    direction=horizontal
+    Sleep    5
+    Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.3    duration=${DURATION}    steps=20    direction=horizontal
+    Sleep    5
+    Perform Pinch Gesture  id=com.google.android.apps.maps:id/mainmap_container    scale=0.5    duration=${DURATION}    steps=20    direction=horizontal
+    

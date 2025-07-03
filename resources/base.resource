@@ -4,21 +4,9 @@ Library     click_point.py
 Library     AppiumLibrary
 Library     AppiumZoomExtensions.py
 Library     AppiumLongPressExtensions.py
-Library     AppiumZoomExtensions2.py
-Library     AppiumZoomExtensions2_1.py
-Library     AppiumZoomExtensions2_2.py
-Library     AppiumZoomExtensions2_3.py
-Library     AppiumZoomExtensions3.py
-Library     AppiumZoomExtensions4.py
-Library     AppiumZoomExtensions5.py
 Library     AppiumPinchExtensions.py
-Library     AppiumZoomExtensions2_4.py
-Library     AppiumZoomExtensions6.py
-Library     AppiumZoomExtensions6_1.py
-Library     AppiumZoomExtensions6_2.py
-Library     AppiumZoomExtensions_FINAL.py
-Library     AppiumPinchExtensions_FINAL.py
-Library     AppiumZoomExtensions7.py
+Library     GestureKeywords.py    #Marya
+Library     GestureKeywords2.py   #Adaptação para Zoom do código de Marya
 Library     Appiumclick.py
 Library     OperatingSystem
 Library     DateTime

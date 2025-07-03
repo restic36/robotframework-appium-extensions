@@ -1,12 +1,10 @@
 from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn
-
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.actions.mouse_button import MouseButton
-import warnings
+import random
 
 class AppiumPinchExtensions:
-    """Classe para executar gestos de pinça (zoom out) com Appium."""
+    """Class for Zoom out movement in Appium."""
 
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
@@ -17,39 +15,37 @@ class AppiumPinchExtensions:
     def _driver(self):
         return self._builtin.get_library_instance("AppiumLibrary")._current_application()
 
-    @keyword("Perform Pinch Gesture")
-    def perform_pinch_gesture(self, locator, scale=0.5, duration=50, direction="vertical"):
+    @keyword("Perform Pinch")
+    def perform_zoom_out_gesture(self, locator, scale=0.5, duration=500, direction="vertical", pause_s=0.1, steps=50):
         """
-        Performs a pinch gesture on an Android application.
+        Performs a zoom out (pinch) gesture on an Android application.
 
         Args:
             locator (str): Element locator.
-            scale (float): Gesture scale (0.1 to 1.0).
-            duration (int): Movement duration in milliseconds.
-            direction (str): Gesture direction ("vertical" or "horizontal").
+            scale (float): Gesture scale (must be < 1.0).
+            duration (int): Total movement duration in milliseconds.
+            direction (str): "vertical" or "horizontal".
+            pause_s (float): Pause in seconds before movement begins.
+            steps (int): Number of interpolation steps with perturbation.
         """
-        # Validate arguments
         if not isinstance(locator, str) or not locator:
             raise ValueError("The 'locator' argument must be a non-empty string.")
-        if not (0.1 <= scale <= 1.0):
-            raise ValueError("The 'scale' argument must be between 0.1 and 1.0.")
-        if not isinstance(duration, int) or duration <= 0:
-            raise ValueError("The 'duration' argument must be a positive integer.")
+        if scale >= 1.0:
+            raise ValueError("The 'scale' argument must be less than 1.0 for Zoom Out.")
+        if duration <= 0:
+            raise ValueError("The 'duration' must be a positive integer.")
         if direction.lower() not in ["vertical", "horizontal"]:
-            raise ValueError("The 'direction' argument must be 'vertical' or 'horizontal'.")
+            raise ValueError("Direction must be 'vertical' or 'horizontal'.")
 
         try:
             driver = self._driver
-
             if not driver:
                 raise RuntimeError("The Appium driver is not available.")
 
-            # Get screen dimensions
             screen_size = driver.get_window_size()
             screen_width = screen_size['width']
             screen_height = screen_size['height']
 
-            # Locate the element using the locator and get its coordinates
             appium_lib = self._builtin.get_library_instance("AppiumLibrary")
             element = appium_lib._element_find(locator, True, True)
             if not element:
@@ -60,55 +56,64 @@ class AppiumPinchExtensions:
             width, height = element.size['width'], element.size['height']
             center_x, center_y = x + width / 2, y + height / 2
 
-            # Calculate initial positions for fingers
-            if direction.lower() == "vertical":
-                finger1_start_x, finger1_start_y = center_x, center_y - center_y * scale
-                finger2_start_x, finger2_start_y = center_x, center_y + center_y * scale
-            elif direction.lower() == "horizontal":
-                finger1_start_x, finger1_start_y = center_x - center_x * scale, center_y
-                finger2_start_x, finger2_start_y = center_x + center_x * scale, center_y
+            offset = 10
+            movement = center_y * (1 - scale) if direction == "vertical" else center_x * (1 - scale)
 
-            # Adjust positions to fit within screen bounds
-            adjusted_positions = []
-            for finger_x, finger_y in [(finger1_start_x, finger1_start_y), (finger2_start_x, finger2_start_y)]:
-                adjusted_x = max(0, min(finger_x, screen_width))
-                adjusted_y = max(0, min(finger_y, screen_height))
-                if (finger_x != adjusted_x or finger_y != adjusted_y):
-                    warnings.warn(f"Finger position ({finger_x}, {finger_y}) adjusted to ({adjusted_x}, {adjusted_y}) to fit within screen bounds.")
-                adjusted_positions.append((adjusted_x, adjusted_y))
+            if direction == "vertical":
+                f1_start = (center_x, center_y - movement)
+                f1_end = (center_x, center_y - offset)
+                f2_start = (center_x, center_y + movement)
+                f2_end = (center_x, center_y + offset)
+            else:
+                f1_start = (center_x - movement, center_y)
+                f1_end = (center_x - offset, center_y)
+                f2_start = (center_x + movement, center_y)
+                f2_end = (center_x + offset, center_y)
 
-            finger1_start_x, finger1_start_y = adjusted_positions[0]
-            finger2_start_x, finger2_start_y = adjusted_positions[1]
+            def adjust(x, y):
+                return max(0, min(x, screen_width)), max(0, min(y, screen_height))
 
-            # Create an instance of ActionChains
+            f1_start = adjust(*f1_start)
+            f1_end = adjust(*f1_end)
+            f2_start = adjust(*f2_start)
+            f2_end = adjust(*f2_end)
+
             actions = ActionChains(driver)
-
-            # Define two touch pointers (fingers)
-            finger1 = actions.w3c_actions.add_pointer_input('touch', 'finger1') 
+            finger1 = actions.w3c_actions.add_pointer_input('touch', 'finger1')
             finger2 = actions.w3c_actions.add_pointer_input('touch', 'finger2')
 
-            # Configure the pinch gesture
-            finger1.create_pointer_move(x=finger1_start_x, y=finger1_start_y)
-            finger2.create_pointer_move(x=finger2_start_x, y=finger2_start_y)
+            # Move to start positions
+            finger1.create_pointer_move(x=f1_start[0], y=f1_start[1])
+            finger2.create_pointer_move(x=f2_start[0], y=f2_start[1])
 
-            finger1.create_pointer_down(button=MouseButton.LEFT)
-            finger2.create_pointer_down(button=MouseButton.LEFT)
+            # Touch down
+            finger1.create_pointer_down(button=0)
+            finger2.create_pointer_down(button=0)
 
-            finger1.create_pause(0.5)
-            finger2.create_pause(0.5)
+            # Pause before gesture starts
+            finger1.create_pause(pause_s)
+            finger2.create_pause(pause_s)
 
-            if direction.lower() == "vertical":
-                finger1.create_pointer_move(x=center_x, y=center_y - 100, duration=duration)
-                finger2.create_pointer_move(x=center_x, y=center_y + 100, duration=duration)
-            elif direction.lower() == "horizontal":
-                finger1.create_pointer_move(x=center_x - 100, y=center_y, duration=duration)
-                finger2.create_pointer_move(x=center_x + 100, y=center_y, duration=duration)
+            for i in range(1, steps + 1):
+                t = i / steps
+                interp_f1_x = f1_start[0] + t * (f1_end[0] - f1_start[0]) + random.uniform(-0, 0)
+                interp_f1_y = f1_start[1] + t * (f1_end[1] - f1_start[1]) + random.uniform(-0, 0)
+                interp_f2_x = f2_start[0] + t * (f2_end[0] - f2_start[0]) + random.uniform(-0, 0)
+                interp_f2_y = f2_start[1] + t * (f2_end[1] - f2_start[1]) + random.uniform(-0, 0)
 
-            finger1.create_pointer_up(button=MouseButton.LEFT)
-            finger2.create_pointer_up(button=MouseButton.LEFT)
+                interp_f1_x, interp_f1_y = adjust(interp_f1_x, interp_f1_y)
+                interp_f2_x, interp_f2_y = adjust(interp_f2_x, interp_f2_y)
 
-            # Perform the actions
+                move_duration = int(duration / steps)
+
+                finger1.create_pointer_move(x=interp_f1_x, y=interp_f1_y, duration=move_duration)
+                finger2.create_pointer_move(x=interp_f2_x, y=interp_f2_y, duration=move_duration)
+
+            # Lift fingers
+            finger1.create_pointer_up(button=0)
+            finger2.create_pointer_up(button=0)
+
             actions.perform()
 
         except Exception as e:
-            raise RuntimeError(f"Error while performing the pinch gesture: {str(e)}")
+            raise RuntimeError(f"Error while performing the zoom out gesture: {str(e)}")

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.2.2 (Python 3.13.2 on win32)" generated="2025-06-18T19:28:07.773799" rpa="false" schemaversion="5">
-<suite id="s1" name="Treinamento" source="C:\QAx\projects\yodapp-robot\keywords\treinamento\treinamento.robot">
-<test id="s1-t1" name="Deve realizar um zoom no Google Maps" line="7">
-<kw name="Start session Google Maps" owner="base_treinamento">
+<robot generator="Robot 7.2.2 (Python 3.13.2 on win32)" generated="2025-07-03T11:26:39.813624" rpa="false" schemaversion="5">
+<suite id="s1" name="Teste Fisico" source="C:\QAx\projects\yodapp-robot\tests\teste_fisico.robot">
+<test id="s1-t1" name="Deve realizar vários Pinch no Google Maps na direção vertical" line="358">
+<kw name="Start session Google Maps" owner="base_fisico">
 <kw name="Open Application" owner="AppiumLibrary">
 <arg>http://localhost:4723</arg>
 <arg>platformName=Android</arg>
-<arg>deviceName=Android Emulator</arg>
+<arg>deviceName=AndroidDevice</arg>
 <arg>automationName=UIAutomator2</arg>
 <arg>appPackage=com.google.android.apps.maps</arg>
 <arg>appActivity=com.google.android.maps.MapsActivity</arg>
-<arg>udid=emulator-5554</arg>
 <arg>autoGrantPermissions=true</arg>
 <doc>Opens a new application to given Appium server.
 Capabilities of appium server, Android and iOS,
@@ -19,67 +18,66 @@ Please check https://appium.io/docs/en/2.1/cli/args/
 | remote_url          | Yes    | Appium server url |
 | alias               | no     | alias             |
 | strict_ssl          | No     | allows you to send commands to an invalid certificate host like a self-signed one. |</doc>
-<status status="PASS" start="2025-06-18T19:28:08.059652" elapsed="13.863110"/>
+<status status="PASS" start="2025-07-03T11:26:40.107771" elapsed="16.100569"/>
 </kw>
-<status status="PASS" start="2025-06-18T19:28:08.058950" elapsed="13.864253"/>
+<status status="PASS" start="2025-07-03T11:26:40.106748" elapsed="16.102491"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-06-18T19:28:31.930939" level="INFO">Slept 10 seconds.</msg>
+<msg time="2025-07-03T11:27:06.212636" level="INFO">Slept 10 seconds.</msg>
 <arg>10</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-06-18T19:28:21.925426" elapsed="10.005781"/>
-</kw>
-<kw name="Wait Until Element Is Visible" owner="AppiumLibrary">
-<msg time="2025-06-18T19:28:33.661543" level="INFO">xpath criteria: //android.widget.Button[@content-desc="Enter compass mode"]</msg>
-<arg>//android.widget.Button[@content-desc="Enter compass mode"]</arg>
-<doc>Waits until element specified with `locator` is visible.</doc>
-<status status="PASS" start="2025-06-18T19:28:31.958757" elapsed="1.702923"/>
-</kw>
-<kw name="Click Element" owner="AppiumLibrary">
-<msg time="2025-06-18T19:28:33.664184" level="INFO">Clicking element '//android.widget.Button[@content-desc="Enter compass mode"]'.</msg>
-<msg time="2025-06-18T19:28:34.125740" level="INFO">xpath criteria: //android.widget.Button[@content-desc="Enter compass mode"]</msg>
-<arg>//android.widget.Button[@content-desc="Enter compass mode"]</arg>
-<doc>Click element identified by `locator`.</doc>
-<status status="PASS" start="2025-06-18T19:28:33.662147" elapsed="0.463785"/>
+<status status="PASS" start="2025-07-03T11:26:56.210777" elapsed="10.002250"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-06-18T19:28:36.127832" level="INFO">Slept 2 seconds.</msg>
+<msg time="2025-07-03T11:27:08.215521" level="INFO">Slept 2 seconds.</msg>
 <arg>2</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-06-18T19:28:34.126707" elapsed="2.001433"/>
+<status status="PASS" start="2025-07-03T11:27:06.214306" elapsed="2.001641"/>
 </kw>
-<kw name="Perform Zoom" owner="AppiumZoomTreinamento">
-<msg time="2025-06-18T19:28:40.630426" level="INFO">criteria is com.google.android.apps.maps:id/mainmap_container</msg>
-<arg>locator=id=com.google.android.apps.maps:id/mainmap_container</arg>
-<arg>scale=1.5</arg>
-<arg>duration=500</arg>
-<arg>direction=horizontal</arg>
-<arg>pause_s=0.3</arg>
-<arg>steps=50</arg>
-<doc>Executa um gesto de zoom in (aproximação com dois dedos) em um aplicativo Android.
-Aplica perturbações para simular movimento humano realista.</doc>
-<status status="PASS" start="2025-06-18T19:28:36.128932" elapsed="4.501645"/>
+<kw name="Perform Pinch" owner="AppiumPinchExtensions">
+<msg time="2025-07-03T11:27:10.161168" level="INFO">criteria is com.google.android.apps.maps:id/mainmap_container</msg>
+<arg>id=com.google.android.apps.maps:id/mainmap_container</arg>
+<arg>scale=0.7</arg>
+<arg>duration=${DURATION}</arg>
+<arg>steps=20</arg>
+<arg>direction=vertical</arg>
+<doc>Performs a zoom out (pinch) gesture on an Android application.</doc>
+<status status="PASS" start="2025-07-03T11:27:08.217609" elapsed="1.944023"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-06-18T19:28:42.632906" level="INFO">Slept 2 seconds.</msg>
-<arg>2</arg>
+<msg time="2025-07-03T11:27:15.164103" level="INFO">Slept 5 seconds.</msg>
+<arg>5</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-06-18T19:28:40.631432" elapsed="2.001665"/>
+<status status="PASS" start="2025-07-03T11:27:10.162931" elapsed="5.001509"/>
 </kw>
-<tag>zoom</tag>
-<status status="PASS" start="2025-06-18T19:28:08.057907" elapsed="34.591322"/>
+<kw name="Perform Pinch Gesture" owner="GestureKeywords">
+<msg time="2025-07-03T11:27:15.573534" level="INFO">Element center at (600.0, 964.0)</msg>
+<msg time="2025-07-03T11:27:15.573946" level="INFO">Finger 1 starts at ((600.0, 684.0))</msg>
+<msg time="2025-07-03T11:27:15.574108" level="INFO">Finger 2 starts at ((600.0, 1244.0))</msg>
+<msg time="2025-07-03T11:27:16.874351" level="INFO">Pinch gesture performed successfully.</msg>
+<msg time="2025-07-03T11:27:16.874663" level="INFO">criteria is com.google.android.apps.maps:id/mainmap_container</msg>
+<arg>id=com.google.android.apps.maps:id/mainmap_container</arg>
+<arg>scale=0.7</arg>
+<arg>duration=${DURATION}</arg>
+<arg>steps=20</arg>
+<arg>direction=vertical</arg>
+<doc>Performs a realistic pinch gesture with perturbation.</doc>
+<status status="PASS" start="2025-07-03T11:27:15.165603" elapsed="1.709263"/>
+</kw>
+<tag>pinchmaps</tag>
+<status status="PASS" start="2025-07-03T11:26:40.105701" elapsed="36.770444"/>
 </test>
-<status status="PASS" start="2025-06-18T19:28:07.775574" elapsed="34.910826"/>
+<status status="PASS" start="2025-07-03T11:26:39.815226" elapsed="37.064109"/>
 </suite>
 <statistics>
 <total>
 <stat pass="1" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="1" fail="0" skip="0">zoom</stat>
+<stat pass="1" fail="0" skip="0">pinchmaps</stat>
 </tag>
 <suite>
-<stat name="Treinamento" id="s1" pass="1" fail="0" skip="0">Treinamento</stat>
+<stat name="Teste Fisico" id="s1" pass="1" fail="0" skip="0">Teste Fisico</stat>
 </suite>
 </statistics>
 <errors>
