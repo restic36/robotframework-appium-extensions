@@ -27,3 +27,15 @@ Start session Calculadora
     ...    appActivity=com.android.calculator2.Calculator
     ...    udid=emulator-5554
     ...    autoGrantPermissions=true
+
+
+Start session Camera
+
+    Open Application    http://localhost:4723    
+    ...    platformName=Android    
+    ...    deviceName=Android Emulator    
+    ...    automationName=UIAutomator2
+    ...    appPackage=com.android.camera2
+    ...    appActivity=com.android.camera.CameraActivity
+    ...    udid=emulator-5554
+    ...    autoGrantPermissions=true
