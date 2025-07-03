@@ -6,8 +6,8 @@ import warnings
 import random
 
 
-class GestureKeywords:
-    """Custom Gesture Extension Class for AppiumLibrary with enhanced pinch gesture."""
+class GestureZoom:
+    """Custom Gesture Extension Class for AppiumLibrary with enhanced zoom gesture."""
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
     def __init__(self):
@@ -30,8 +30,8 @@ class GestureKeywords:
         width, height = size['width'], size['height']
         return x + width / 2, y + height / 2, element
 
-    def _calculate_finger_inicial_positions(self, x, y, scale, movement, direction):
-        # Defines the initial finger positions based on gesture center, scale, and movement range
+    def _calculate_finger_final_positions(self, x, y, scale, movement, direction):
+        # Defines the final finger positions based on gesture center, scale, and movement range
         displacement = scale * movement
         if direction.lower() == "vertical":
             return (x, y - displacement), (x, y + displacement)
@@ -50,16 +50,15 @@ class GestureKeywords:
             adjusted_positions.append((new_x, new_y))
         return adjusted_positions
 
-    def _validate_pinch_args(self, locator, scale, duration, direction, movement):
+    def _validate_zoom_args(self, locator, scale, duration, direction, movement):
         # Validates gesture arguments for correctness and safety
         if locator is not None:
             if not isinstance(locator, str) or not locator:
                 raise ValueError("The 'locator' must be a non-empty string.")
             if '=' not in locator:
-                raise ValueError(
-                    f"Locator '{locator}' must be in the format 'strategy=value'")
-        if not (0.1 <= scale < 1.0):
-            raise ValueError("Scale must be between 0.1 and less than 1.0")
+                raise ValueError(f"Locator '{locator}' must be in the format 'strategy=value'")
+        if scale <= 1.0:
+            raise ValueError("Scale must be greater than 1.0")
         if duration <= 0:
             raise ValueError("Duration must be a positive integer.")
         if direction.lower() not in ["vertical", "horizontal"]:
@@ -67,14 +66,14 @@ class GestureKeywords:
         if movement <= 0:
             raise ValueError("Movement must be positive")
 
-    @keyword("Perform Pinch Gesture")
-    def perform_pinch_gesture(self, locator=None, scale=0.5, duration=500, direction="vertical", movement=400, pause=0.1, steps=50):
+    @keyword("Perform Zoom Gesture")
+    def perform_zoom_gesture(self, locator=None, scale=1.5, duration=500, direction="vertical", movement=300, pause=0.1, steps=50):
         """
-        Performs a realistic pinch gesture with perturbation.
+        Performs a realistic zoom gesture with perturbation.
 
         Args:
             locator (str): Element locator (optional; if None, uses screen center).
-            scale (float): Gesture scale (0.1 to 1.0).
+            scale (float): Gesture scale (> 1.0).
             duration (int): Total duration of the gesture in milliseconds.
             direction (str): Gesture direction ("vertical" or "horizontal").
             movement (int/float): Gesture amplitude in pixels.
@@ -82,8 +81,7 @@ class GestureKeywords:
             steps (int): Number of interpolation steps for gesture realism.
         """
 
-        self._validate_pinch_args(
-            locator, scale, duration, direction, movement)
+        self._validate_zoom_args(locator, scale, duration, direction, movement)
 
         try:
             driver = self.driver
@@ -100,19 +98,13 @@ class GestureKeywords:
                 self._builtin.log("No locator provided. Using center of the screen.", "INFO")
             else:
                 center_x, center_y, _ = self._get_element_center(locator)
-                self._builtin.log(
-                    f"Element center at ({center_x}, {center_y})", "INFO")
-
-            f1_start, f2_start = self._calculate_finger_inicial_positions(
-                center_x, center_y, scale, movement, direction)
+                self._builtin.log(f"Element center at ({center_x}, {center_y})", "INFO")
 
             offset = 10
-            if direction.lower() == "vertical":
-                f1_end = (center_x, center_y - offset)
-                f2_end = (center_x, center_y + offset)
-            else:
-                f1_end = (center_x - offset, center_y)
-                f2_end = (center_x + offset, center_y)
+            f1_start = (center_x, center_y - offset) if direction == "vertical" else (center_x - offset, center_y)
+            f2_start = (center_x, center_y + offset) if direction == "vertical" else (center_x + offset, center_y)
+
+            f1_end, f2_end = self._calculate_finger_final_positions(center_x, center_y, scale, movement, direction)
 
             f1_start, f1_end, f2_start, f2_end = self._adjust_to_screen_bounds(
                 [f1_start, f1_end, f2_start, f2_end], screen_width, screen_height)
@@ -136,32 +128,23 @@ class GestureKeywords:
 
             for i in range(1, steps + 1):
                 t = i / steps
-                interp_f1_x = f1_start[0] + t * \
-                    (f1_end[0] - f1_start[0]) + random.uniform(-0.0, 0.0)
-                interp_f1_y = f1_start[1] + t * \
-                    (f1_end[1] - f1_start[1]) + random.uniform(-0.0, 0.0)
-                interp_f2_x = f2_start[0] + t * \
-                    (f2_end[0] - f2_start[0]) + random.uniform(-0.0, 0.0)
-                interp_f2_y = f2_start[1] + t * \
-                    (f2_end[1] - f2_start[1]) + random.uniform(-0.0, 0.0)
+                interp_f1_x = f1_start[0] + t * (f1_end[0] - f1_start[0]) + random.uniform(-0.0, 0.0)
+                interp_f1_y = f1_start[1] + t * (f1_end[1] - f1_start[1]) + random.uniform(-0.0, 0.0)
+                interp_f2_x = f2_start[0] + t * (f2_end[0] - f2_start[0]) + random.uniform(-0.0, 0.0)
+                interp_f2_y = f2_start[1] + t * (f2_end[1] - f2_start[1]) + random.uniform(-0.0, 0.0)
 
-                interp_f1_x, interp_f1_y = max(0, min(interp_f1_x, screen_width)), max(
-                    0, min(interp_f1_y, screen_height))
-                interp_f2_x, interp_f2_y = max(0, min(interp_f2_x, screen_width)), max(
-                    0, min(interp_f2_y, screen_height))
+                interp_f1_x, interp_f1_y = max(0, min(interp_f1_x, screen_width)), max(0, min(interp_f1_y, screen_height))
+                interp_f2_x, interp_f2_y = max(0, min(interp_f2_x, screen_width)), max(0, min(interp_f2_y, screen_height))
 
                 move_duration = int(duration / steps)
-                finger1.create_pointer_move(
-                    x=interp_f1_x, y=interp_f1_y, duration=move_duration)
-                finger2.create_pointer_move(
-                    x=interp_f2_x, y=interp_f2_y, duration=move_duration)
+                finger1.create_pointer_move(x=interp_f1_x, y=interp_f1_y, duration=move_duration)
+                finger2.create_pointer_move(x=interp_f2_x, y=interp_f2_y, duration=move_duration)
 
             finger1.create_pointer_up(button=MouseButton.LEFT)
             finger2.create_pointer_up(button=MouseButton.LEFT)
 
             actions.perform()
-            self._builtin.log("Pinch gesture performed successfully.", "INFO")
+            self._builtin.log("Zoom gesture performed successfully.", "INFO")
 
         except Exception as e:
-            raise RuntimeError(
-                f"Error while performing the pinch gesture: {str(e)}")
+            raise RuntimeError(f"Error while performing the zoom gesture: {str(e)}")

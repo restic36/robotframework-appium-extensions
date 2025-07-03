@@ -4,8 +4,8 @@ Library     AppiumLibrary
 Library     AppiumZoomExtensions.py
 Library     AppiumLongPressExtensions.py
 Library     AppiumPinchExtensions.py
-Library     GestureKeywords.py    #Marya
-Library     GestureKeywords2.py   #Adaptação para Zoom do código de Marya
+Library     GesturePinch.py    #Marya
+Library     GestureZoom.py   #Adaptação para Zoom do código de Marya
 Library     Appiumclick.py
 Library     OperatingSystem
 Library     DateTime
