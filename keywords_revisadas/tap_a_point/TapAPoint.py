@@ -44,7 +44,7 @@ class TapAPoint:
 
     @keyword("Tap A Point")
     # "Tap" is more appropriate than "Click" in mobile UI interactions and aligns with Appium standards.
-    def tap_a_point(self, x, y, duration=100):
+    def perform_tap_a_point(self, x, y, duration=100):
         """
         Performs a tap gesture at an absolute screen coordinate.
 
