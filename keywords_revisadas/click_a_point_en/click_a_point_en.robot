@@ -86,3 +86,16 @@ Negative Test - Malformed List
     Log    Negative test: forcing error by passing a list as an argument    WARN
     Run Keyword And Expect Error    *must be integers*    
     ...    Perform Click A Point    [300, 800]    100
+
+Outside Screen Touch
+    [Documentation]    Perform tap on off-screen coordinates and checks if coordinates are adjusted
+    [Tags]    outside    edge_case    adjusted        validation
+    Log    Forcing adjust by trying to use an off-screen coordinate
+    ${width}=    Get Window Width
+    ${height}=   Get Window Height
+
+    ${x}=    Evaluate    ${width} + 1000
+    ${y}=    Evaluate    ${height} + 1000
+
+    Perform Click A Point    ${x}    ${y}    ${TAP_DURATION}
+    Log    Coordinates adjusted to screen bounds
