@@ -76,6 +76,24 @@ Make sure that:
 
 ---
 
+## Tests Structure
+
+The test suite is organized as follows:
+
+### Positive Tests
+
+- **Tap Center and Top-Right of Screen**
+- **Consecutive Taps at Different Positions**
+- **Outside Screen Touch - Adjusted Coordinates**
+
+### Negative Tests
+
+- **Tap with Invalid Coordinate**
+- **Tap with Invalid Duration**
+- **Tap with Malformed List of coordinates**
+
+---
+
 ## Additional Notes
 
 This keyword was originally created to fill a gap in AppiumLibrary's touch support and remains a valuable technical reference.
