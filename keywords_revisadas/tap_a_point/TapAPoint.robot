@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Test suite for the custom keyword Perform Tap A Point
+Documentation     Test suite for the custom keyword Tap A Point
 Library           AppiumLibrary
 Library           TapAPoint
 
