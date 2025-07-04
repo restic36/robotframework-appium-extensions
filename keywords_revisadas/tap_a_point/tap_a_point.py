@@ -4,7 +4,7 @@ from robot.libraries.BuiltIn import BuiltIn
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.actions.mouse_button import MouseButton
 
-class ClickAPoint:
+class TapAPoint:
     """Custom keyword set for absolute touch interactions using W3C Actions."""
     ROBOT_LIBRARY_SCOPE = 'GLOBAL'
 
@@ -42,15 +42,15 @@ class ClickAPoint:
             self._builtin.log(f"Coordinates adjusted from ({original_x}, {original_y}) to ({x}, {y}) to fit within screen bounds.", "WARN")
         return x, y
 
-    @keyword("Perform Click A Point") 
-    # This name preserves the intent of the deprecated keyword, while being slightly renamed to avoid direct conflicts or override.
-    def perform_click_a_point(self, x, y, duration=100):
+    @keyword("Tap A Point")
+    # "Tap" is more appropriate than "Click" in mobile UI interactions and aligns with Appium standards.
+    def tap_a_point(self, x, y, duration=100):
         """
-        Performs a click gesture at an absolute screen coordinate.
+        Performs a tap gesture at an absolute screen coordinate.
 
         Args:
-            x (int): X coordinate of the click point.
-            y (int): Y coordinate of the click point.
+            x (int): X coordinate of the tap point.
+            y (int): Y coordinate of the tap point.
             duration (int): Duration of the press in milliseconds.
         """
         # From this point forward, we'll follow a modular approach by consistently calling helper functions
@@ -71,14 +71,14 @@ class ClickAPoint:
         x, y = self._adjust_coordinates_to_screen_bounds(x, y, screen_width, screen_height)
 
         # Logs the exact action being performed to help with debugging and traceability
-        self._builtin.log(f"Performing click at ({x}, {y}) for {duration}ms", "INFO")
+        self._builtin.log(f"Performing tap at ({x}, {y}) for {duration}ms", "INFO")
 
         # Create an instance of ActionChains
         actions = ActionChains(driver)
         # Define touch pointer
         touch = actions.w3c_actions.add_pointer_input('touch', 'finger')
 
-        # Configure the click action
+        # Configure the tap action
         touch.create_pointer_move(x=x, y=y)
         touch.create_pointer_down(button=MouseButton.LEFT)
         # The "pause" function expects duration in seconds, so we convert the input from milliseconds (duration / 1000)
