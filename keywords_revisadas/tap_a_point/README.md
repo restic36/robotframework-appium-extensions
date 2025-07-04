@@ -1,4 +1,4 @@
-# Perform Tap A Point — AppiumLibrary Extension
+# Tap A Point — AppiumLibrary Extension
 
 `Tap A Point` is a custom keyword for the Robot Framework AppiumLibrary. It performs a precise tap gesture on a specific screen coordinate using W3C-compliant touch actions.
 
