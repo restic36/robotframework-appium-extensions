@@ -1,6 +1,6 @@
-# Perform Click A Point — AppiumLibrary Extension
+# Perform Tap A Point — AppiumLibrary Extension
 
-`Perform Click A Point` is a custom keyword for the Robot Framework AppiumLibrary. It performs a precise tap gesture on a specific screen coordinate using W3C-compliant touch actions.
+`Tap A Point` is a custom keyword for the Robot Framework AppiumLibrary. It performs a precise tap gesture on a specific screen coordinate using W3C-compliant touch actions.
 
 ---
 
@@ -30,7 +30,7 @@ Internally, this keyword uses:
 To run the tests:
 
 ```bash
-robot test_click_a_point_en.robot
+robot tap_a_point.robot
 ```
 
 Make sure that:
@@ -69,7 +69,7 @@ Make sure that:
 
 ## Code Structure
 
-- Written as a class (ClickAPoint) with ROBOT_LIBRARY_SCOPE = GLOBAL
+- Written as a class (TapAPoint) with ROBOT_LIBRARY_SCOPE = GLOBAL
 - Modularized with helper functions (`get_driver`, `adjust_coordinates_to_screen_bounds`, etc.)
 - Includes explicit argument validation and informative logging
 - Designed for clarity, testability, and reuse
