@@ -3,7 +3,6 @@ from robot.api.deco import keyword
 from robot.libraries.BuiltIn import BuiltIn
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
-from selenium.webdriver.common.actions.interaction import KEY
 
 class Appiumclick:
 
@@ -15,7 +14,7 @@ class Appiumclick:
         return self._builtin.get_library_instance('AppiumLibrary')._current_application()
 
     @keyword('ClickC')
-    def clickC(self, locator, xoffset, yoffset):
+    def clickC(self, locator, xoffset=0.5, yoffset=0.5):
         driver = self._driver
         appium_lib = self._builtin.get_library_instance('AppiumLibrary')
 
@@ -37,22 +36,25 @@ class Appiumclick:
             xoffset = float(xoffset)
             yoffset = float(yoffset)
         except Exception:
-            raise ValueError("xoffset e yoffset devem ser números (pixels ou fração de 0 a 1 para porcentagem)")
+            raise ValueError("xoffset e yoffset devem ser números (ex: 0.5 para porcentagem ou 30 para pixels)")
 
-        # Se o offset for <= 1, considera como porcentagem do tamanho do elemento
+        # Se o offset estiver entre 0 e 1, trata como porcentagem
         if 0 <= xoffset <= 1:
             xoffset_px = int(size['width'] * xoffset)
         else:
             xoffset_px = int(xoffset)
+
         if 0 <= yoffset <= 1:
             yoffset_px = int(size['height'] * yoffset)
         else:
             yoffset_px = int(yoffset)
 
+        # Coordenada final do clique na tela
         x = location['x'] + xoffset_px
         y = location['y'] + yoffset_px
         self._builtin.log(f"Coordenadas calculadas para clique: ({x}, {y}) (offsets: {xoffset_px}, {yoffset_px})", level='INFO')
 
+        # Verificação se está dentro da tela
         window_size = driver.get_window_size()
         self._builtin.log(f"Tamanho da tela: {window_size}", level='INFO')
 
@@ -61,24 +63,15 @@ class Appiumclick:
 
         try:
             self._builtin.log("Executando clique usando W3C Actions", level='INFO')
-            # Definindo 'touch' corretamente com a string "touch"
             touch = PointerInput("touch", "finger")
             actions = ActionBuilder(driver, mouse=touch)
 
-            # Ação de movimento para as coordenadas calculadas
             actions.pointer_action.move_to_location(x, y)
-
-            # Realizando o pointer_down (pressionando o dedo na tela)
             actions.pointer_action.pointer_down()
-
-            # Aguarde um momento para simular o toque de forma mais visível
             time.sleep(0.2)
-
-            # Realizando o pointer_up (levantando o dedo da tela)
             actions.pointer_action.pointer_up()
 
             actions.perform()
-
             self._builtin.log("Clique realizado com sucesso via W3C Actions", level='INFO')
         except Exception as e:
             self._builtin.log(f"Erro ao executar W3C Actions: {e}", level='ERROR')
