@@ -4,6 +4,7 @@ from robot.libraries.BuiltIn import BuiltIn
 from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 
+
 class Appiumclick:
 
     def __init__(self):
