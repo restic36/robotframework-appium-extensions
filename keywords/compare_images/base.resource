@@ -1,10 +1,6 @@
 *** Settings ***
 
 Library     AppiumLibrary
-Library     ./AppiumLongPressExtensions.py
-Library     ./Appiumclick.py
-Library     ./AppiumPinchExtensions.py
-Library     ./AppiumZoomExtensions.py
 Library     OperatingSystem
 Library     DateTime
 Library    ScreenshotComparisonKeywords.py
