@@ -1,9 +1,7 @@
 *** Settings ***
 
 Library     AppiumLibrary
-Library     ./Appiumclick.py
-
-
+Library     Appiumclick.py
 
 *** Variables ***
 
