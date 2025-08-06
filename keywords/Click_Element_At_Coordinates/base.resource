@@ -1,9 +1,8 @@
 *** Settings ***
 
 Library     AppiumLibrary
-Library     OperatingSystem
-Library     DateTime
 
+Library     Appiumclick.py
 
 
 *** Variables ***
@@ -65,26 +64,5 @@ Go to item
 Close session
     Close Application
 
-Start session Google Maps
-
-    Open Application    http://localhost:4723    
-    ...    platformName=Android    
-    ...    deviceName=Android Emulator    
-    ...    automationName=UIAutomator2
-    ...    appPackage=com.google.android.apps.maps
-    ...    appActivity=com.google.android.maps.MapsActivity
-    ...    udid=emulator-5554
-    ...    autoGrantPermissions=true
-
-Start session Google Photos
-
-    Open Application    http://localhost:4723    
-    ...    platformName=Android    
-    ...    deviceName=Android Emulator    
-    ...    automationName=UIAutomator2
-    ...    appPackage=com.google.android.apps.photos
-    ...    appActivity=.home.HomeActivity
-    ...    udid=emulator-5554
-    ...    autoGrantPermissions=true
 
 
