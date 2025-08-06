@@ -48,6 +48,7 @@ Exemplo de nomenclatura das branches:
 
 6. **Merge para main**
     - Quando todas as tarefas forem concluídas e testadas na branch `develop`, será feito o merge para `main` com uma nova release.
+**Pegar o local exato do app pra abrir:** adb shell dumpsys window | findstr "mCurrentFocus mFocusedApp
 
 > **Importante:** Antes de iniciar ou continuar uma tarefa, sempre atualize sua branch local para evitar conflitos:
 ```bash
