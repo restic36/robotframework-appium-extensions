@@ -1,4 +1,7 @@
 
+# --- Node / Front-end ---
+node_modules/
+
 # --- Python ---
 *.pyc
 __pycache__/

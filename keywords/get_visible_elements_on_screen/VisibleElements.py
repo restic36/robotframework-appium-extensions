@@ -25,7 +25,10 @@ class VisibleElements:
     def _get_appium_driver(self):
         # Gets the current Appium driver instance
         appium_lib = self._builtin.get_library_instance("AppiumLibrary")
-        return appium_lib._current_application()
+        driver = appium_lib._current_application()
+        if driver is None or not getattr(driver, "session_id", None):
+            self._builtin.fail("Appium session is not active. Ensure a session is opened before calling this keyword.")
+        return driver
 
     def _find_all_elements(self, driver):
         # Return all elements in the current screen using a generic XPath
@@ -127,58 +130,26 @@ class VisibleElements:
         """
         Returns the list of visible UI elements currently rendered on the screen.
 
-        This keyword is useful for visual validation or exploratory checks during mobile automation tests.
-        It applies optional filters by element type (e.g., clickable, text, button, input) and allows selecting
-        which identifier should be used (`resource-id`, `accessibility_id`, or automatic fallback).
+        [Arguments]
+            filter_type: type of elements to include in the result. Options are:
+                all (default) | clickable | text | button | input
+            id_mode: identifier selection strategy. Options are:
+                auto (default: prefer resource-id; if empty, fallback to content-desc)
+                | resource_id (only return resource-id values)
+                | accessibility_id (only return content-desc values)
+            debug: if False (default), returns only a list of identifiers (strings); If True, returns a list of dictionaries
 
-        Args:
-            filter_type (str, optional):
-                The type of elements to include in the result. Options are:
-                - "all": no filtering, return every visible element (default)
-                - "clickable": only elements with clickable="true"
-                - "text": only elements with a non-empty text value
-                - "button": only elements whose class contains "Button"
-                - "input": only elements whose class contains "EditText"
-            id_mode (str, optional):
-                The identifier selection strategy. Options are:
-                - "auto" (default): prefer resource-id; if empty, fallback to content-desc (accessibility_id)
-                - "resource_id": only return resource-id values
-                - "accessibility_id": only return content-desc values
-            debug (bool, optional):
-                Whether to return full element details as dictionaries (for debugging/inspection).
-                If False (default), returns only a list of identifiers (strings).
-                If True, returns a list of dictionaries with the following keys:
-                - "identifier": { "value": <str>, "kind": "resource_id"|"accessibility_id" }
-                - "resource_id": element resource-id (may be empty)
-                - "accessibility_id": element content-desc (may be empty)
-                - "text": element visible text (may be empty)
-                - "class": element class name
-                - "clickable": boolean flag if element is clickable
+        [Return Values]
+            - debug=False: a list of identifier strings (resource-id or accessibility_id).
+            - debug=True: a list of dictionaries with extended element information:
+                identifier: { value: <str>, kind: resource_id|accessibility_id }
+                resource_id: <str>
+                accessibility_id: <str>
+                text: <str>
+                class: <str>
+                clickable: <bool>
 
-        Returns:
-            list:
-                - When debug=False: a list of identifier strings (resource-id or accessibility_id).
-                - When debug=True: a list of dictionaries with extended element information.
-
-        Examples:
-            | *** Test Cases ***                                                               |
-            | Return all visible elements                                                      |
-            |     @{els}=    Get Visible Elements On Screen                                    |
-            |     Should Not Be Empty    ${els}                                                |
-            |                                                                                  |
-            | Return only clickable elements in debug mode                                     |
-            |     @{els}=    Get Visible Elements On Screen    clickable    auto    debug=True |
-            |     FOR    ${el}    IN    @{els}                                                 |
-            |         Should Be True    ${el['clickable']}                                     |
-            |     END                                                                          |
-
-        Raises:
-            AssertionError:
-                - If an invalid value is passed to `filter_type` or `id_mode`.
-            WebDriverException:
-                - If fetching elements from the driver fails.
-
-        Notes:
+        [Notes]
             - On Android, "accessibility_id" is an alias for the "content-desc" attribute.
             - In auto mode, elements without either resource-id or content-desc are excluded.
             - Duplicates are automatically removed based on (kind, value) pairs.
