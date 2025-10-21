@@ -20,10 +20,16 @@ class ChangeTheme:
 
         Args:
             udid (str): The unique device identifier.
-        """
-        self.device_udid = udid
-        self._builtin.log(f"UDID set to: {udid}", "INFO")
 
+        Raises:
+            ValueError: If the UDID is not a non-empty string.
+        """
+        # --- Validação adicionada ---
+        if not isinstance(udid, str) or not udid.strip():
+            raise ValueError("UDID must be a non-empty string")
+
+        self.device_udid = udid.strip()
+        self._builtin.log(f"UDID set to: {self.device_udid}", "INFO")
     def _execute_adb_command(self, command):
         """Execute an ADB command and return the result.
 
@@ -32,7 +38,14 @@ class ChangeTheme:
 
         Returns:
             tuple: (success: bool, output: str) with command status and response.
+
+        Raises:
+            RuntimeError: If the device UDID is not set.
         """
+        # --- Nova verificação de segurança ---
+        if not self.device_udid:
+            raise RuntimeError("Device UDID is not set. Use 'Set Device UDID' before executing ADB commands.")
+
         try:
             full_command = f"adb -s {self.device_udid} {command}"
             result = subprocess.run(
@@ -50,10 +63,16 @@ class ChangeTheme:
                 return False, result.stderr
                 
         except subprocess.TimeoutExpired:
-            self._builtin.log(f"ADB command timeout: {command}", "ERROR")
-            return False, "Timeout"
+            self._builtin.log(f"ADB command timeout while executing: {command}", "ERROR")
+            return False, "TimeoutExpired"
+        except ValueError as e:
+            self._builtin.log(f"Invalid value used in ADB command: {str(e)}", "ERROR")
+            return False, f"ValueError: {str(e)}"
+        except RuntimeError as e:
+            self._builtin.log(f"Runtime error during ADB command: {str(e)}", "ERROR")
+            return False, f"RuntimeError: {str(e)}"
         except Exception as e:
-            self._builtin.log(f"Error executing ADB command: {str(e)}", "ERROR")
+            self._builtin.log(f"Unexpected error executing ADB command: {str(e)}", "ERROR")
             return False, str(e)
 
     def _get_current_theme(self):
@@ -115,9 +134,11 @@ class ChangeTheme:
     @keyword("Change To Dark Theme")
     def change_to_dark_theme(self, verify=True):
         """Switch system to dark theme using ADB.
-
+        
         Args:
-            verify (bool, optional): If True, verifies that the change was applied. Defaults to True.
+            verify (bool | str, optional): If True, verifies that the change was applied.
+            Accepts both boolean and string values from Robot Framework (e.g. "True"/"False").
+            Defaults to True.
 
         Raises:
             RuntimeError: If theme change fails.
@@ -126,6 +147,10 @@ class ChangeTheme:
             bool: True if the theme was set successfully.
         """
         try:
+            if isinstance(verify, str):
+                verify = verify.strip().lower() in ("true", "1", "yes")
+            else:                verify = bool(verify)
+
             self._builtin.log("Starting dark theme switch via ADB", "INFO")
             
             current_theme = self._get_current_theme()
@@ -144,8 +169,17 @@ class ChangeTheme:
             self._builtin.log("Dark theme successfully applied", "INFO")
             return True
             
+        except subprocess.TimeoutExpired:
+            self._builtin.log("Timeout while switching to dark theme", "ERROR")
+            raise RuntimeError("Timeout while switching to dark theme")
+        except ValueError as e:
+            self._builtin.log(f"Invalid value: {str(e)}", "ERROR")
+            raise
+        except RuntimeError as e:
+            self._builtin.log(f"Runtime error: {str(e)}", "ERROR")
+            raise
         except Exception as e:
-            self._builtin.log(f"Error switching to dark theme: {str(e)}", "ERROR")
+            self._builtin.log(f"Unexpected error switching to dark theme: {str(e)}", "ERROR")
             raise RuntimeError(f"Failed to switch to dark theme: {str(e)}")
 
     @keyword("Change To Light Theme")
@@ -162,6 +196,11 @@ class ChangeTheme:
             bool: True if the theme was set successfully.
         """
         try:
+            verify = str(verify).lower() in ("true", "1", "yes")
+            if isinstance(verify, str):
+                verify = verify.strip().lower() in ("true", "1", "yes")
+            else:
+                bool(verify)
             self._builtin.log("Starting light theme switch via ADB", "INFO")
             
             current_theme = self._get_current_theme()
@@ -180,8 +219,17 @@ class ChangeTheme:
             self._builtin.log("Light theme successfully applied", "INFO")
             return True
             
+        except subprocess.TimeoutExpired:
+            self._builtin.log("Timeout while switching to light theme", "ERROR")
+            raise RuntimeError("Timeout while switching to light theme")
+        except ValueError as e:
+            self._builtin.log(f"Invalid value: {str(e)}", "ERROR")
+            raise
+        except RuntimeError as e:
+            self._builtin.log(f"Runtime error: {str(e)}", "ERROR")
+            raise
         except Exception as e:
-            self._builtin.log(f"Error switching to light theme: {str(e)}", "ERROR")
+            self._builtin.log(f"Unexpected error switching to light theme: {str(e)}", "ERROR")
             raise RuntimeError(f"Failed to switch to light theme: {str(e)}")
 
     @keyword("Get Current Theme")
@@ -203,6 +251,9 @@ class ChangeTheme:
             self._builtin.log(f"Current theme: {theme_name} (code: {theme_code})", "INFO")
             return theme_name
             
+        except subprocess.TimeoutExpired:
+            self._builtin.log("Timeout while retrieving current theme", "ERROR")
+            raise RuntimeError("Timeout while retrieving current theme")
         except Exception as e:
             self._builtin.log(f"Error getting current theme: {str(e)}", "ERROR")
             raise RuntimeError(f"Failed to get current theme: {str(e)}")
@@ -226,10 +277,13 @@ class ChangeTheme:
             self._builtin.log("Theme successfully toggled", "INFO")
             return True
             
+        except RuntimeError as e:
+            self._builtin.log(f"Runtime error while toggling theme: {str(e)}", "ERROR")
+            raise
         except Exception as e:
-            self._builtin.log(f"Error toggling theme: {str(e)}", "ERROR")
+            self._builtin.log(f"Unexpected error toggling theme: {str(e)}", "ERROR")
             raise RuntimeError(f"Failed to toggle theme: {str(e)}")
-
+        
     @keyword("Reset Theme To Auto")
     def reset_theme_to_auto(self):
         """Reset the system theme to automatic mode.
@@ -252,6 +306,13 @@ class ChangeTheme:
             self._builtin.log("Theme reset to auto successfully", "INFO")
             return True
 
+        except subprocess.TimeoutExpired:
+            self._builtin.log("Timeout while resetting theme to auto", "ERROR")
+            raise RuntimeError("Timeout while resetting theme to auto")
+        except RuntimeError as e:
+            self._builtin.log(f"Runtime error: {str(e)}", "ERROR")
+            raise
         except Exception as e:
-            self._builtin.log(f"Error resetting theme: {str(e)}", "ERROR")
+            self._builtin.log(f"Unexpected error resetting theme: {str(e)}", "ERROR")
             raise RuntimeError(f"Failed to reset theme: {str(e)}")
+        
