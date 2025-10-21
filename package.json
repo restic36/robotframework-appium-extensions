@@ -1,0 +1,17 @@
+{
+  "name": "yodapp",
+  "version": "1.0.0",
+  "description": "Projeto de Testes automatizados para mobile com appium",
+  "main": "index.js",
+  "scripts": {
+    "test": "robot -d ./logs "
+  },
+  "author": "Geovane Glória",
+  "license": "ISC",
+  "dependencies": {
+    "appium": "^2.16.2"
+  },
+  "devDependencies": {
+    "appium-uiautomator2-driver": "^4.2.5"
+  }
+}
