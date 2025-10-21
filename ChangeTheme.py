@@ -24,7 +24,6 @@ class ChangeTheme:
         Raises:
             ValueError: If the UDID is not a non-empty string.
         """
-        # --- Validação adicionada ---
         if not isinstance(udid, str) or not udid.strip():
             raise ValueError("UDID must be a non-empty string")
 
@@ -42,7 +41,6 @@ class ChangeTheme:
         Raises:
             RuntimeError: If the device UDID is not set.
         """
-        # --- Nova verificação de segurança ---
         if not self.device_udid:
             raise RuntimeError("Device UDID is not set. Use 'Set Device UDID' before executing ADB commands.")
 
