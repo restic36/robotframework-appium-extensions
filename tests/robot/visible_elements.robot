@@ -1,5 +1,5 @@
 *** Settings ***
-Resource    VisibleElementsResource.robot
+Resource    ../../resources/base_visible_elements.resource
 
 Suite Setup       Open Wikipedia App
 Suite Teardown    Close Wikipedia App

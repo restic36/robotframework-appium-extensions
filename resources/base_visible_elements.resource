@@ -4,7 +4,7 @@ Library    OperatingSystem
 Library    Collections
 Library    BuiltIn
 Library    String
-Library    VisibleElements.py
+Library    ../src/robotframework_appium_extensions/keywords/VisibleElements.py
 
 *** Variables ***
 ${REMOTE_URL}           http://localhost:4723
