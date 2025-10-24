@@ -34,7 +34,7 @@ Should swipe down on Timer
     ...    speed=500
     Sleep    2
 
-# TEST FOR ERROR RETURN (Element locator '//android.widget.TextView[@text="imer"]' did not match any elements)
+# TEST FOR ERROR RETURN  (Element locator '//android.widget.TextView[@text="imer"]' did not match any elements)
 Should swipe down on Timer with error
     [Tags]    swipe
     Start session Timer
