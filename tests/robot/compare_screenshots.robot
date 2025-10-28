@@ -1,9 +1,11 @@
 *** Settings ***
 Library     AppiumLibrary
+Library    ../../src/robotframework_appium_extensions/keywords/TapElementAtCoordinates.py
+Library    ../../src/robotframework_appium_extensions/keywords/CompareScreenshots.py
 Resource    ../../resources/base_compare_screenshots.resource
 
 *** Variables ***
-${PATH}      ${EXECDIR}/screenshots/testes
+${PATH}      ${EXECDIR}/tests/assets/compare screenshots
 
 *** Test Cases ***
 
@@ -76,12 +78,11 @@ Compare Screen Calculator
     sleep     2s
     Capture Page Screenshot    filename=${PATH}/calc_before.png
     Sleep   2s
-    ClickC    id=com.google.android.calculator:id/digit_8
-    ClickC  id=com.google.android.calculator:id/op_add
-    ClickC    id=com.google.android.calculator:id/digit_6
-    ClickC  id=com.google.android.calculator:id/op_add
-    ClickC    id=com.google.android.calculator:id/digit_4
-  #  ClickC    id=com.google.android.calculator:id/eq
+    Tap Element At Coordinates    id=com.google.android.calculator:id/digit_8
+    Tap Element At Coordinates  id=com.google.android.calculator:id/op_add
+    Tap Element At Coordinates    id=com.google.android.calculator:id/digit_6
+    Tap Element At Coordinates  id=com.google.android.calculator:id/op_add
+    Tap Element At Coordinates    id=com.google.android.calculator:id/digit_4
     Sleep   2s
     Capture Page Screenshot    filename=${PATH}/calc_after.png
     Compare Screenshots    img1=${PATH}/calc_before.png    img2=${PATH}/calc_after.png    expected=Different

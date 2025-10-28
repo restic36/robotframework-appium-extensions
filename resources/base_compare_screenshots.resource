@@ -5,7 +5,7 @@ Library     OperatingSystem
 Library     DateTime
 Library    ../src/robotframework_appium_extensions/keywords/CompareScreenshots.py
 Library    ../src/robotframework_appium_extensions/keywords/PerformPinch.py
-Library     ../clickElementV2/Appiumclick.py
+Library     ../clickElementV2/TapElementAtCoordinates.py
 
 *** Variables ***
 
