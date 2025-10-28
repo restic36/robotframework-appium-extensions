@@ -6,7 +6,7 @@ from selenium.webdriver.common.actions.action_builder import ActionBuilder
 from selenium.webdriver.common.actions.pointer_input import PointerInput
 
 
-class Appiumclick:
+class TapElementAtCoordinates:
     """
     Library for performing clicks on elements at specific coordinates using Appium and W3C Actions.
     Supports both percentage and pixel offsets for flexible mobile automation.
@@ -25,8 +25,8 @@ class Appiumclick:
         """
         return self._builtin.get_library_instance("AppiumLibrary")._current_application()
 
-    @keyword("Click Elements")
-    def clickC(self, locator, xoffset=0.5, yoffset=0.5):
+    @keyword("Tap Element At Coordinates")
+    def tap_element_at_coordinates(self, locator, xoffset=0.5, yoffset=0.5):
         """Click on mobile element at specified coordinates using touch actions.
         Supports percentage or pixel offsets from element's top-left corner.
 

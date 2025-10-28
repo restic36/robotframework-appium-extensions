@@ -1,7 +1,7 @@
 *** Settings ***
 
 Library     AppiumLibrary
-Library     ./Appiumclick.py
+Library    ../src/robotframework_appium_extensions/keywords/TapElementAtCoordinates.py
 Library     OperatingSystem
 Library     DateTime
 
