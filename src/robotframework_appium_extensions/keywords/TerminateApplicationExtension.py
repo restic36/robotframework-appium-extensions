@@ -31,7 +31,7 @@ class TerminateApplicationExtension:
             )
 
     @keyword("Terminate Application Extension")
-    def terminate_application(self, app_id):
+    def terminate_application_extension(self, app_id):
         """
         Terminates the application specified by app_id.
 

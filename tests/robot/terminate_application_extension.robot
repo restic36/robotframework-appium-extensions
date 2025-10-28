@@ -5,7 +5,7 @@ Documentation    This test suite runs the applications and simulates their use b
 ...              feature the swipe-up interaction as a primary form of navigation and content consumption
    
 Library           AppiumLibrary
-Resource          ./base.resource
+Resource    ../../resources/base_terminate_application_extension.resource
 
 *** Test Cases ***
 Test YouTube Application Termination

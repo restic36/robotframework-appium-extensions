@@ -1,7 +1,7 @@
 *** Settings ***
 
 Library     AppiumLibrary
-Library     TerminateApplicationExtension.py
+Library    ../src/robotframework_appium_extensions/keywords/TerminateApplicationExtension.py
 
 *** Variables ***
 ${REMOTE_URL}           http://localhost:4723
