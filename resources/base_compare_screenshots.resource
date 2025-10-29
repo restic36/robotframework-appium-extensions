@@ -23,7 +23,7 @@ Start session 1
       Open Application            http://localhost:4723
     ...                         automationName=UIAutomator2
     ...                         platformName=Android
-    ...                         DeviceName=Emulator
+    ...                         deviceName=Emulator
     ...                         udid=emulator-5554
     ...                         autoGrantPermissions=true
     ...                         app=${EXECDIR}/app/Calculator2.apk  
@@ -32,7 +32,7 @@ Start session 2
         Open Application            http://localhost:4723
     ...                         automationName=UIAutomator2
     ...                         platformName=Android
-    ...                         DeviceName=Emulator
+    ...                         deviceName=Emulator
     ...                         udid=emulator-5554
     ...                         autoGrantPermissions=true
     ...                         app=${EXECDIR}/app/yodapp-beta.apk

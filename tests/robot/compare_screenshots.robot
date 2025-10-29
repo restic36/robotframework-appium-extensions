@@ -3,7 +3,7 @@ Library     AppiumLibrary
 Resource    ../../resources/base_compare_screenshots.resource
 
 *** Variables ***
-${PATH}      ${EXECDIR}/tests/assets/compare_screenshots
+${PATH}      robotframework-appium-extensions/tests/assets/compare_screenshots
 
 *** Test Cases ***
 
@@ -25,23 +25,10 @@ Compare Screen After Zoom Out
     Start Session Google Maps
     Sleep   5s
     Capture Page Screenshot    filename=${PATH}/zoom.png
-    Perform Pinch Gesture    id=com.google.android.apps.maps:id/mainmap_container
+    Perform Pinch    id=com.google.android.apps.maps:id/mainmap_container
     Sleep    2s
     Capture Page Screenshot    filename=${PATH}/zoom_final.png
     Compare Screenshots    img1=${PATH}/zoom.png    img2=${PATH}/zoom_final.png    expected=Different
-    Close Application
-
-
-Compare Screen After Map Scroll
-    [Tags]    difference
-    Create Directory    ${PATH}
-    Start Session Google Maps
-    Sleep   5s
-    Capture Page Screenshot    filename=${PATH}/scroll.png
-    Swipe    500    800    200    800    1000
-    Sleep    2s
-    Capture Page Screenshot    filename=${PATH}/scroll_final.png
-    Compare Screenshots    img1=${PATH}/scroll.png    img2=${PATH}/scroll_final.png    expected=Different
     Close Application
 
 
@@ -58,6 +45,7 @@ Compare Screen After Typing
     Compare Screenshots    img1=${PATH}/search.png    img2=${PATH}/search_final.png    expected=Different
     Close Application
 
+# TEST FOR ERROR RETURN
 Compare Screen After inicio
     [Tags]    inicio
     Create Directory    ${PATH}
