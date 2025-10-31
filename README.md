@@ -45,8 +45,8 @@ Individual documentation are in keyword docstrings.
 - **Python 3.9+**
 - **Robot Framework 4.0+**
 - **Appium Server 2.0**
-- **UiAutomator2 driver (Android)**
-- **Appium-Python-Client 5.1.1+**
+- **UiAutomator2 driver (Android) 4.x**
+- **Appium-Python-Client >=3.1.0,<5.0.0**
 - **Selenium W3C Actions**
 - **OpenCV + scikit-image + NumPy** (for visual comparison)
 - **ADB + Android SDK tools**
@@ -77,7 +77,7 @@ pip install robotframework-appium-extensions
 
 Or, if you prefer to work with the latest development version:
 ```bash
-git clone https://github.com/<....>.git
+git clone https://github.com/restic36/robotframework-appium-extensions.git
 cd robotframework-appium-extensions
 pip install .
 ```

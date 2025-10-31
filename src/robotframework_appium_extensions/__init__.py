@@ -15,20 +15,36 @@ This package can be imported in two ways:
   → Loads only the desired keyword module.
 """
 
-import importlib
-import pkgutil
-from pathlib import Path
-
-
-_keywords_path = Path(__file__).parent / "keywords"
-
-
-for _, module_name, _ in pkgutil.iter_modules([str(_keywords_path)]):
-    module = importlib.import_module(f"robotframework_appium_extensions.keywords.{module_name}")
-    globals().update(vars(module))
-
+from .keywords.ChangeTheme import *
+from .keywords.ClickElements import *
+from .keywords.CompareScreenshots import *
+from .keywords.NetworkStatus import *
+from .keywords.PerformLongPress import *
+from .keywords.PerformPinch import *
+from .keywords.PerformZoom import *
+from .keywords.ScrollInside import *
+from .keywords.ScrollToElement import *
+from .keywords.SwipeElement import *
+from .keywords.TapAtPercentage import *
+from .keywords.TapElementAtCoordinates import *
+from .keywords.TerminateApplicationExtension import *
+from .keywords.VisibleElements import *
+from .keywords.WaitMultipleElements import *
 
 __all__ = [
-    module_name
-    for _, module_name, _ in pkgutil.iter_modules([str(_keywords_path)])
+    "ChangeTheme",
+    "ClickElements",
+    "CompareScreenshots",
+    "NetworkStatus",
+    "PerformLongPress",
+    "PerformPinch",
+    "PerformZoom",
+    "ScrollInside",
+    "ScrollToElement",
+    "SwipeElement",
+    "TapAtPercentage",
+    "TapElementAtCoordinates",
+    "TerminateApplicationExtension",
+    "VisibleElements",
+    "WaitMultipleElements",
 ]
